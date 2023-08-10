@@ -89,6 +89,7 @@ const userController = {
       const query = `
         query ($filter: users_bool_exp!) {
           users(where: $filter) {
+            id
             email
             password
             displayname
@@ -131,5 +132,4 @@ const userController = {
     }
   },
 };
-
 export default userController;

@@ -1,17 +1,32 @@
-import dbConnect from "./config/database";
-import app from "./app";
+import { ApolloServer } from "@apollo/server";
+import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+
+import configExpress from "./config/express";
+
+import typeDefs from "./src/graphql/typeDefs";
+import resolvers from "./src/graphql/resolvers";
+
+import express from "express";
+const app = express();
 
 const startApplication = async () => {
   try {
-    await dbConnect();
+    // Create http and apollo server
+    const httpServer = require("http").createServer(app);
+    const apolloServer = new ApolloServer({
+      typeDefs,
+      resolvers,
+      plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    });
+    await apolloServer.start();
 
+    configExpress(app, apolloServer);
+
+    // Start the app to listen port 4500
     const port = Number(process.env.PORT || 4500);
-    app.set("port", port);
 
-    const server = require("http").createServer(app);
-
-    server.listen(port);
-    server.on("listening", () => {
+    httpServer.listen(port);
+    httpServer.on("listening", () => {
       console.log("Server Running on Port  -->  " + port);
     });
   } catch (err) {

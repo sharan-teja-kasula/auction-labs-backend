@@ -5,7 +5,7 @@ import rateLimit from "express-rate-limit";
 import { routeHandler as routeValidator } from "./express_config/routes.validator";
 import { loadAppRoutes } from "./express_config/routes.loader";
 
-export default function configureExpress(app: express.Application): void {
+export default (app: express.Application, apolloServer: any): void => {
   const corsOptions: cors.CorsOptions = {
     origin: "*",
     methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
@@ -23,5 +23,5 @@ export default function configureExpress(app: express.Application): void {
   app.use(rateLimit({ windowMs: 60 * 60 * 1000, max: 10000 }));
 
   app.use((req, res, next) => routeValidator(req, res, next));
-  loadAppRoutes(app);
-}
+  loadAppRoutes(app, apolloServer);
+};
