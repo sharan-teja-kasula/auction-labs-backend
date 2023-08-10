@@ -4,7 +4,7 @@ type Auction {
   title: String!
   description: String!
   category: String!
-  imageUrl: String!
+  imageurl: String!
   start_time: String!
   end_time: String!
   current_bid_amount: Float!
@@ -16,7 +16,7 @@ input AuctionInput {
   title: String!
   description: String!
   category: String!
-  imageUrl: String!
+  imageurl: String!
   start_time: String!
   end_time: String!
 }

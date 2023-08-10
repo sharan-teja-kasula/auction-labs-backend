@@ -11,7 +11,7 @@ const app = express();
 
 const startApplication = async () => {
   try {
-    // Create http and apollo server
+    // Create HTTP and Apollo Server
     const httpServer = require("http").createServer(app);
     const apolloServer = new ApolloServer({
       typeDefs,
@@ -20,11 +20,12 @@ const startApplication = async () => {
     });
     await apolloServer.start();
 
+    // Configure the routes
     configExpress(app, apolloServer);
 
-    // Start the app to listen port 4500
     const port = Number(process.env.PORT || 4500);
 
+    // Start the server
     httpServer.listen(port);
     httpServer.on("listening", () => {
       console.log("Server Running on Port  -->  " + port);

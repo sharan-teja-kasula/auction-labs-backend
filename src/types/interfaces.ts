@@ -20,7 +20,7 @@ export interface Auction {
   title: string;
   description: string;
   category: string;
-  imageUrl: string;
+  imageurl: string;
   start_time: Date;
   end_time: Date;
   current_bid_amount: Number;
@@ -32,7 +32,7 @@ export interface AuctionInput {
   title: string;
   description: string;
   category: string;
-  imageUrl: string;
+  imageurl: string;
   start_time: Date;
   end_time: Date;
 }

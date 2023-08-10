@@ -14,7 +14,6 @@ const dbConnect = async () => {
     });
 
     await pool.connect();
-    console.log(`PostgreSQL Connection  -->  SUCCESS`);
 
     return pool;
   } catch (err) {
