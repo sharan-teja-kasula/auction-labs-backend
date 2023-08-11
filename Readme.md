@@ -168,7 +168,7 @@ mutation ($input: AuctionInput!) {
 
 - **Variables:**
 
-```
+```json
 {
   "input": {
     "title": "New Auction",
@@ -231,10 +231,10 @@ mutation ($id: ID!, $status: Boolean!) {
 
 - **Variables:**
 
-```
+```json
 {
-    "id": 9,
-    "status": false
+  "id": 9,
+  "status": false
 }
 ```
 
@@ -393,7 +393,7 @@ mutation ($input: BidInput!) {
 
 - **Variables:**
 
-```
+```json
 {
   "input": {
     "auction_id": 2,
