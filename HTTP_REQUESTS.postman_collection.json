@@ -1,0 +1,309 @@
+{
+	"info": {
+		"_postman_id": "add2a8ad-ed8f-4105-ad0e-498ae497b392",
+		"name": "HTTP REQUESTS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24622471",
+		"_collection_link": "https://www.postman.com/sparrowteck/workspace/auction-labs/collection/24622471-add2a8ad-ed8f-4105-ad0e-498ae497b392?action=share&creator=24622471&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "AUCTION",
+			"item": [
+				{
+					"name": "GET AUCTIONS",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\n  getAuctions(filter: \"\", limit: 10, offset: 0, sortby: \"title\", sortorder: \"asc\") {\n    id\n    title\n    description\n    category\n    imageurl\n    start_time\n    end_time\n    current_bid_amount\n    user_id\n    status\n  }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/api/graphql",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"api",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE AUCTION",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation ($input: AuctionInput!) {\n  createAuction(input: $input) {\n    id\n    title\n    description\n    category\n    imageurl\n    start_time\n    end_time\n    current_bid_amount\n    user_id\n    status\n  }\n}\n",
+								"variables": "{\n  \"input\": {\n    \"title\": \"New Auction\",\n    \"description\": \"This is a new auction\",\n    \"category\": \"Electronics\",\n    \"imageurl\": \"https://example.com/sample.jpg\",\n    \"start_time\": \"2023-08-11T10:00:00Z\",\n    \"end_time\": \"2023-08-15T18:00:00Z\"\n  }\n}\n"
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/api/graphql",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"api",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE AUCTION",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation ($id: ID!, $status: Boolean!) {\n  updateAuctionStatus(id: $id, status: $status) {\n    id\n    title\n    description\n    category\n    imageurl\n    start_time\n    end_time\n    current_bid_amount\n    user_id\n    status\n  }\n}\n",
+								"variables": "{\n    \"id\": 9,\n    \"status\": false\n}\n"
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/api/graphql",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"api",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "AUTH",
+			"item": [
+				{
+					"name": "LOGIN",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json()\r",
+									"pm.environment.set('token', response.token)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"sharantejakasula@gmail.com\",\r\n  \"password\": \"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/authentication/login",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"authentication",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SEND OTP",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"sharanteja669@gmail.com\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/authentication/otp/:requestType",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"authentication",
+								"otp",
+								":requestType"
+							],
+							"variable": [
+								{
+									"key": "requestType",
+									"value": "forgotpassword",
+									"description": "forgotpassword,register"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "REGISTER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"displayName\": \"Sharan Teja\",\r\n  \"email\": \"sharanteja669@gmail.com\",\r\n  \"password\": \"123456789\",\r\n  \"otp\": \"585608\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/authentication/register",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"authentication",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FORGOT PASSWORD",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"sharanteja669@gmail.com\",\r\n  \"password\": \"1234567890\",\r\n  \"otp\": \"901542\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/authentication/forgotpassword",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"authentication",
+								"forgotpassword"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "BID",
+			"item": [
+				{
+					"name": "GET BIDS",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query {\n  getBids(auction_id: 2, limit: 10, offset: 0, sortby: \"bid_time\", sortorder:\"asc\") {\n    id\n    user_id\n    displayname\n    email\n    auction_id\n    bid_amount\n    bid_time\n  }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/api/graphql",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"api",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE BID",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation ($input: BidInput!) {\n  createBid(input: $input) {\n    id\n    user_id\n    displayname\n    email\n    auction_id\n    bid_amount\n    bid_time\n  }\n}\n",
+								"variables": "{\n  \"input\": {\n    \"auction_id\": 2,\n    \"bid_amount\": 10121.2\n  }\n}\n"
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/api/graphql",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"api",
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
