@@ -45,11 +45,10 @@ const auctionController = {
     try {
       const pool = await dbConnect();
 
-      // Add condition to verify end_date before update
       const updateQuery = `
         UPDATE auctions
         SET status = $1
-        WHERE id = $2 AND user_id = $3
+        WHERE id = $2 AND user_id = $3 AND end_time > NOW()
         RETURNING *;
       `;
 
@@ -60,7 +59,7 @@ const auctionController = {
       pool.end();
 
       if (updateResult.rows.length === 0) {
-        throw new Error("Auction not found or unauthorized");
+        throw new Error("Auction not found, unauthorized, or expired");
       }
 
       return updateResult.rows[0];
@@ -68,15 +67,21 @@ const auctionController = {
       throw error;
     }
   },
-  getAuctions: async (filter: string, limit: number, offset: number) => {
+  getAuctions: async (
+    filter: string,
+    limit: number,
+    offset: number,
+    sortby: string,
+    sortorder: "asc" | "desc"
+  ) => {
     try {
       const pool = await dbConnect();
 
-      // Add sorting functionality as well
       const query = `
         SELECT *
         FROM auctions
         WHERE title ILIKE $1
+        ORDER BY ${sortby} ${sortorder}
         LIMIT $2 OFFSET $3
       `;
       const result = await pool.query(query, [`%${filter}%`, limit, offset]);

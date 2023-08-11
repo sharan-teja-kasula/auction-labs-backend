@@ -27,7 +27,7 @@ type Mutation {
 }
 
 type Query {
-  getAuctions(filter: String, limit: Int, offset: Int): [Auction!]!
+  getAuctions(filter: String, limit: Int, offset: Int, sortby: String, sortorder: String): [Auction!]!
 }
 `;
 

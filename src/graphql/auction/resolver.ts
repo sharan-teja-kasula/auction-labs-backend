@@ -54,9 +54,27 @@ resolvers.Mutation = {
 resolvers.Query = {
   getAuctions: async (
     _: any,
-    { filter, limit, offset }: { filter: string; limit: number; offset: number }
+    {
+      filter,
+      limit,
+      offset,
+      sortby,
+      sortorder,
+    }: {
+      filter: string;
+      limit: number;
+      offset: number;
+      sortby: string;
+      sortorder: "asc" | "desc";
+    }
   ) => {
-    const auctions = await auctionController.getAuctions(filter, limit, offset);
+    const auctions = await auctionController.getAuctions(
+      filter,
+      limit,
+      offset,
+      sortby,
+      sortorder
+    );
     return auctions;
   },
 };

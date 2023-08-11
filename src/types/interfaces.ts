@@ -36,3 +36,17 @@ export interface AuctionInput {
   start_time: Date;
   end_time: Date;
 }
+
+export interface Bid {
+  id: Number;
+  displayname: string;
+  email: string;
+  auction_id: string;
+  bid_amount: Number;
+  bid_time: string;
+}
+
+export interface BidInput {
+  auction_id: Number;
+  bid_amount: Number;
+}
