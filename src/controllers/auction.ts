@@ -2,6 +2,11 @@ import { AuctionInput } from "../types/interfaces";
 
 import dbConnect from "../../config/database";
 
+import constants from "../constants";
+import socket from "../../config/socket";
+
+const { SOCKET } = constants;
+
 const auctionController = {
   createAuction: async (input: AuctionInput, userId: Number) => {
     try {
@@ -36,6 +41,12 @@ const auctionController = {
         throw new Error("Auction creation failed");
       }
 
+      socket.pushDataByNamespace(
+        SOCKET.NAMESPACES.AUCTION,
+        SOCKET.TOPICS.CREATE,
+        result.rows[0]
+      );
+
       return result.rows[0];
     } catch (error) {
       throw error;
@@ -61,6 +72,12 @@ const auctionController = {
       if (updateResult.rows.length === 0) {
         throw new Error("Auction not found, unauthorized, or expired");
       }
+
+      socket.pushDataByNamespace(
+        SOCKET.NAMESPACES.AUCTION,
+        SOCKET.TOPICS.UPDATE,
+        updateResult.rows[0]
+      );
 
       return updateResult.rows[0];
     } catch (error) {

@@ -4,7 +4,7 @@ import validator from "validator";
 import otpService from "../services/otp";
 import userController from "../controllers/user";
 
-import OTP_CONSTS from "../constants";
+import constants from "../constants";
 
 const router = express.Router();
 
@@ -43,7 +43,7 @@ router.post("/otp/:requestType", async (req: Request, res: Response) => {
 
     const user = await userController.checkEmail(email);
 
-    const { REQUEST_TYPES } = OTP_CONSTS;
+    const { REQUEST_TYPES } = constants.OTP_CONSTS;
     const { ALL_VALUES, FORGOT_PASSWORD, REGISTER } = REQUEST_TYPES;
 
     if (!ALL_VALUES.includes(requestType))
@@ -65,7 +65,7 @@ router.post("/otp/:requestType", async (req: Request, res: Response) => {
 router.post("/register", async (req: Request, res: Response) => {
   try {
     const { displayName, email, password, otp } = req.body;
-    const { REQUEST_TYPES } = OTP_CONSTS;
+    const { REQUEST_TYPES } = constants.OTP_CONSTS;
     const { REGISTER } = REQUEST_TYPES;
 
     if (typeof displayName !== "string" || displayName?.length <= 3)
@@ -101,7 +101,7 @@ router.post("/register", async (req: Request, res: Response) => {
 router.post("/forgotpassword", async (req: Request, res: Response) => {
   try {
     const { email, password, otp } = req.body;
-    const { REQUEST_TYPES } = OTP_CONSTS;
+    const { REQUEST_TYPES } = constants.OTP_CONSTS;
     const { FORGOT_PASSWORD } = REQUEST_TYPES;
 
     if (typeof email !== "string" || !validator.isEmail(email))

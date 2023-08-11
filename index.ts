@@ -2,6 +2,7 @@ import { ApolloServer } from "@apollo/server";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 
 import configExpress from "./config/express";
+import socket from "./config/socket";
 
 import typeDefs from "./src/graphql/typeDefs";
 import resolvers from "./src/graphql/resolvers";
@@ -22,6 +23,9 @@ const startApplication = async () => {
 
     // Configure the routes
     configExpress(app, apolloServer);
+
+    // Configure socket server
+    socket.init(httpServer);
 
     const port = Number(process.env.PORT || 4500);
 

@@ -2,6 +2,11 @@ import { BidInput } from "../types/interfaces";
 
 import dbConnect from "../../config/database";
 
+import constants from "../constants";
+import socket from "../../config/socket";
+
+const { SOCKET } = constants;
+
 const bidController = {
   createBid: async (input: BidInput, user: Object) => {
     try {
@@ -52,6 +57,12 @@ const bidController = {
 
       result.rows[0].email = email;
       result.rows[0].displayname = displayname;
+
+      socket.pushDataByNamespace(
+        SOCKET.NAMESPACES.BID,
+        SOCKET.TOPICS.CREATE,
+        result.rows[0]
+      );
 
       return result.rows[0];
     } catch (error) {

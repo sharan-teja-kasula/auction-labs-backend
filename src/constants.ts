@@ -6,4 +6,15 @@ const OTP_CONSTS = {
   },
 };
 
-export default OTP_CONSTS;
+const SOCKET = {
+  NAMESPACES: {
+    AUCTION: "/auction",
+    BID: "/bid",
+  },
+  TOPICS: {
+    CREATE: "create",
+    UPDATE: "update",
+  },
+};
+
+export default { OTP_CONSTS, SOCKET };
